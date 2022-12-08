@@ -7,7 +7,7 @@ while (true)
     Menu(menu);
 }
 
-static void Menu(string menu)
+void Menu(string menu)
 {
     switch (menu)
     {
@@ -39,7 +39,7 @@ static void Menu(string menu)
     }
 }
 
-static string AddAbout()
+string AddAbout()
 {
     int id;
     byte age;
@@ -91,7 +91,7 @@ static string AddAbout()
 
 }
 
-static void PrintFile()
+void PrintFile()
 {
     string line;
 
@@ -111,7 +111,7 @@ static void PrintFile()
     }
 }
 
-static void AddFile(string about)
+void AddFile(string about)
 {
     using (StreamWriter streamWriter = new StreamWriter(@"Skillbox_file.txt", true))
     {
@@ -119,13 +119,13 @@ static void AddFile(string about)
     }
 }
 
-static void CreateFail()
+void CreateFail()
 {
     try
     {
         if (File.Exists(@"Skillbox_file.txt") == true)
         {
-            Console.WriteLine("File exists!");
+            Console.WriteLine("Файл создан ранее...");
         }
 
         else
