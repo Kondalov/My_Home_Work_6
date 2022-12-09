@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 
+string path = Path.Combine(Environment.CurrentDirectory, "Skillbox_file.txt");
+
 while (true)
 {
     Console.WriteLine("Выберите действие:\n0 - создать файл\n1 - прочитать файл\n2 - добавить сотрудника\n3 - выход");
@@ -15,7 +17,7 @@ void Menu(string menu)
             CreateFail();
             break;
         case "1":
-            if (File.Exists(@"Skillbox_file.txt"))
+            if (File.Exists(path))
             {
                 PrintFile();
                 Thread.Sleep(1000);
@@ -24,11 +26,24 @@ void Menu(string menu)
             {
                 Console.WriteLine("Файл не существует!");
                 Thread.Sleep(1000);
+                Console.WriteLine("Файл создан автоматически!");
+                CreateFail();
             }
             break;
         case "2":
-            AddFile(AddAbout());
-            Thread.Sleep(1000);
+            if (File.Exists(path))
+            {
+                AddFile(AddAbout());
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("Файл не существует!");
+                Thread.Sleep(1000);
+                Console.WriteLine("Файл создан автоматически!");
+                CreateFail();
+            }
+            
             break;
         case "3":
             Environment.Exit(0);
@@ -42,8 +57,8 @@ void Menu(string menu)
 string AddAbout()
 {
     int id;
-    byte age;
-    byte height;
+    int age;
+    int height;
     string name;
     string city;
     string inputDate;
@@ -53,7 +68,7 @@ string AddAbout()
 
     string[] about = { "ФИО", "Возраст", "Рост", "Дата рождения", "Город проживания" };
 
-    string[] lines = File.ReadAllLines(@"Skillbox_file.txt");
+    string[] lines = File.ReadAllLines(path);
     id = lines.Length + 1;
 
     DateTime dateTime = DateTime.Now;
@@ -62,13 +77,16 @@ string AddAbout()
     name = Console.ReadLine();
 
     Console.WriteLine(about[1]);
-    while (!byte.TryParse(Console.ReadLine(), out age))
-    {
-        Console.WriteLine("Ошибка ввода!\nПовторите ввод...");
-    }
 
+    while (!int.TryParse(Console.ReadLine(), out age) || age <= 0 || age > 250)
+    {
+
+        Console.WriteLine("Ошибка ввода!\nПовторите ввод...");
+
+    }
+    
     Console.WriteLine(about[2]);
-    while (!byte.TryParse(Console.ReadLine(), out height))
+    while (!int.TryParse(Console.ReadLine(), out height) || height <= 0 || height > 250)
     {
         Console.WriteLine("Ошибка ввода!\nПовторите ввод...");
     }
@@ -95,7 +113,7 @@ void PrintFile()
 {
     string line;
 
-    using (StreamReader readFile = new StreamReader(@"Skillbox_file.txt"))
+    using (StreamReader readFile = new StreamReader(path))
     {
         while ((line = readFile.ReadLine()) != null)
         {
@@ -113,7 +131,7 @@ void PrintFile()
 
 void AddFile(string about)
 {
-    using (StreamWriter streamWriter = new StreamWriter(@"Skillbox_file.txt", true))
+    using (StreamWriter streamWriter = new StreamWriter(path, true))
     {
         streamWriter.Write(about);
     }
@@ -123,15 +141,13 @@ void CreateFail()
 {
     try
     {
-        if (File.Exists(@"Skillbox_file.txt") == true)
+        if (File.Exists(path))
         {
             Console.WriteLine("Файл создан ранее...");
         }
 
         else
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "Skillbox_file.txt");
-
             using (FileStream file = File.Create(path))
             file.Close();
             Thread.Sleep(1000);
