@@ -78,7 +78,7 @@ string AddAbout()
 
     Console.WriteLine(about[1]);
 
-    while (!int.TryParse(Console.ReadLine(), out age) || age <= 0 || age > 250)
+    while (!int.TryParse(Console.ReadLine(), out age) || age <= 0 || age > 120)
     {
 
         Console.WriteLine("Ошибка ввода!\nПовторите ввод...");
