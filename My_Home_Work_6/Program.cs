@@ -63,6 +63,7 @@ string AddAbout()
     string city;
     string inputDate;
     DateTime birthDay;
+    bool validName = false; // для проверки ввода символов
 
     Console.WriteLine("Пожалуйста, заполните информацию о себе: ");
 
@@ -75,6 +76,21 @@ string AddAbout()
 
     Console.WriteLine(about[0]);
     name = Console.ReadLine();
+
+    while (!validName)
+    {
+        if (ContainsInvalidCharacters(name))
+        {
+            Console.WriteLine("Invalid characters are not allowed in the name.");
+            return name;
+        }
+        else
+        {
+            validName = true;
+            Console.WriteLine("Name input is valid.");
+            Console.WriteLine("Your name: " + name);
+        }
+    }
 
     Console.WriteLine(about[1]);
 
@@ -160,4 +176,17 @@ void CreateFail()
         Console.WriteLine("Процесс не может получить доступ к файлу 'Skillbox_file.txt, потому что он используется другим процессом" + errorpath.Message);
         return;
     }
+}
+
+//Проверка на ввод символов
+bool ContainsInvalidCharacters(string input)
+{
+    foreach (char c in input)
+    {
+        if (char.IsDigit(c) || char.IsPunctuation(c))
+        {
+            return true;
+        }
+    }
+    return false;
 }
