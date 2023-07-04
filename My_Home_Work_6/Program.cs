@@ -82,7 +82,7 @@ string AddAbout()
         if (ContainsInvalidCharacters(name))
         {
             Console.WriteLine("Invalid characters are not allowed in the name.");
-            return name;
+            name = Console.ReadLine();
         }
         else
         {
